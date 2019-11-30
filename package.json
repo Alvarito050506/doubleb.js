@@ -1,0 +1,32 @@
+{
+  "name": "doubleb.js",
+  "version": "0.1.1",
+  "description": "Simple and limited template system designed for speed.",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alvarito050506/doubleb.js.git"
+  },
+  "keywords": [
+    "templates",
+    "template-system",
+    "web",
+    "webpages",
+    "websites",
+    "static"
+  ],
+  "author": "Alvarito050506 <dofrutosgomez@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Alvarito050506/doubleb.js/issues"
+  },
+  "homepage": "https://github.com/Alvarito050506/doubleb.js#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "fs-extra": "^8.1.0",
+    "path": "^0.12.7"
+  }
+}
