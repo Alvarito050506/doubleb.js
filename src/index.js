@@ -31,6 +31,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 var custom_handlers = new Object();
+var files = new Array();
 
 /**
  * From Stack Overflow:
@@ -47,18 +48,17 @@ var custom_handlers = new Object();
  **/
 function traverse_dir(dir)
 {
-	var files = new Array();
 	fs.readdirSync(dir).forEach(function (file) {
-		var full_path = path.join(dir, file);
-		if (fs.lstatSync(full_path).isDirectory())
-		{
-			traverse_dir(full_path);
+		var filepath = path.join(dir, file);
+		var stat = fs.statSync(filepath);
+		if (stat.isDirectory())
+		{           
+			traverse_dir(filepath);
 		} else
 		{
-			files.push(full_path);
+			files.push(filepath);
 		}
 	});
-	return files;
 }
 
 /**
@@ -166,9 +166,10 @@ function render(config)
  **/
 function middleware(config)
 {
-	return function ()
+	return function (req, res, next)
 	{
-		return render(config);
+		res.send(render(config));
+		next();
 	};
 }
 
@@ -225,8 +226,8 @@ function add_handler(name, regex, callback) {
  **/
 function main(config_path = "./_config.json")
 {
-	var files = new Array();
 	var config = new Object();
+	var exclude_regex;
 	config = read_config(config_path);
 	if (config == -1 || config == -2)
 	{
@@ -242,7 +243,10 @@ function main(config_path = "./_config.json")
 	{
 		config["$input_dir"] = "./_src";
 	}
-
+	if (config.hasOwnProperty("$exclude"))
+	{
+		exclude_regex = new RegExp(config["$exclude"]);
+	}
 	if (!fs.existsSync(config["$input_dir"]))
 	{
 		process.stderr.write(" ERR\nError: The " + config["$input_dir"] + " directory does not exists.\n");
@@ -255,15 +259,19 @@ function main(config_path = "./_config.json")
 	process.stdout.write(" OK.\n");
 
 	process.stdout.write("Generating output...");
+
 	fs.copySync(config["$input_dir"], config["$output_dir"]);
 
-	files = traverse_dir(config["$output_dir"]);
+	traverse_dir(config["$output_dir"]);
 
 	files.forEach(function (file) {
-		file_data = fs.readFileSync(file, "utf8");
-		config.data = file_data;
-		result = render(config);
-		fs.writeFileSync(file, result, "utf8");
+		if (!exclude_regex.test(file))
+		{
+			file_data = fs.readFileSync(file, "utf8");
+			config.data = file_data;
+			result = render(config);
+			fs.writeFileSync(file, result, "utf8");
+		}
 	});
 
 	process.stdout.write(" OK.\n");
@@ -271,11 +279,7 @@ function main(config_path = "./_config.json")
 }
 
 module.exports = main;
-
 module.exports.read_config = read_config;
-
 module.exports.add_handler = add_handler;
-
 module.exports.render = render;
-
 module.exports.middleware = middleware;

@@ -45,11 +45,12 @@ The configuration file looks like the this:
 {
   "$input_dir": "/some/path",
   "$ouput_dir": "/some/other/path",
+  "$exclude": "(.*).png$",
   "variable_name": "value",
   "extension_variable": ["value", "value0", "abcdwxyz"]
 }
 ```
-Where `$input_dir` is the input directory with the files to be rendered and  `$output_dir` is the output directory of the rendered files. `variable_name` and `extension_variable` are just examples. All the fields are optional.
+Where `$input_dir` is the input directory with the files to be rendered and `$output_dir` is the output directory of the rendered files. `variable_name` and `extension_variable` are just examples. All the fields are optional.
 
 ## Examples
 For examples, look at the [**test**](https://github.com/Alvarito050506/doubleb.js/tree/master/test) folder.
