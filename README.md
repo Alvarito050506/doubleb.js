@@ -7,12 +7,12 @@ doubleb.js is a simple and limited template system designed for projects that re
 To use doubleb.js you only need to have Node.js `> = 10.16.3` preinstalled.
 
 ### Installation
-There is a [npm package](https://www.npmjs.com/package/doubleb,js) that you can install running:
+There is a [npm package](https://www.npmjs.com/package/doubleb.js) that you can install running:
 ```bash
 npm install doubleb.js
 ```
 ## Usage
-The only way to use doubleb.js for now is  through the [API](#api).
+The only way to use doubleb.js for now is through the [API](#api).
 
 ## API
 The npm module, loaded with `const doubleb = require("doubleb.js");` exposes the following functions and variables.
