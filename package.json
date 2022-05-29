@@ -26,7 +26,7 @@
   "homepage": "https://github.com/Alvarito050506/doubleb.js#readme",
   "dependencies": {
     "fs": "0.0.1-security",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "path": "^0.12.7"
   }
 }
